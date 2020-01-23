@@ -9,10 +9,20 @@ namespace Models
     {
 
         #region Variable
+        ICurrentDateTime _currentDateTime;
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
+        #endregion
+
+        #region Contructor
+        public WeatherForecast() { }
+
+        public WeatherForecast(ICurrentDateTime currentDateTime)
+        {
+            _currentDateTime = currentDateTime;
+        }
         #endregion
 
         #region Getter/Setter
@@ -27,7 +37,7 @@ namespace Models
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
-                Date = DateTime.Now.AddDays(index),
+                Date = _currentDateTime.Now.AddDays(index), // using ICurrentDateTime reference
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
